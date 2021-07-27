@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { registerRequest } from '../actions';
+import { registerUser } from '../actions';
 import Header from '../components/Header';
 import '../assets/styles/components/Register.scss';
 
@@ -14,6 +14,7 @@ const Register = (props) => {
   });
 
   const handleInput = (event) => {
+    console.log('event: ', event.target.value);
     setValues({
       ...form,
       [event.target.name]: event.target.value,
@@ -23,8 +24,7 @@ const Register = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('dentro deregister, handlesubmit', form);
-    props.registerRequest(form);
-    props.history.push('/');
+    props.registerUser(form, '/login');
   };
 
   return (
@@ -55,7 +55,7 @@ const Register = (props) => {
               placeholder='Contraseña'
               onChange={handleInput}
             />
-            <button className='button'>Registrarme</button>
+            <button className='button' type='submit'>Registrarme</button>
           </form>
           <Link to='/Login'>
             Iniciar sesión
@@ -67,7 +67,7 @@ const Register = (props) => {
 };
 
 const mapDispatchToProps = {
-  registerRequest,
+  registerUser,
 };
 
 export default connect(null, mapDispatchToProps)(Register);
