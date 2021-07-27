@@ -138,7 +138,7 @@ app.post('/auth/sign-in', async (req, res, next) => {
         }
 
         const { token, ...user } = data;
-        console.log()
+
         res.cookie('token', token, {
           httpOnly: !(ENV === 'development'),
           secure: !(ENV === 'development'),
