@@ -9,7 +9,6 @@ import plusIcon from '../assets/static/plus-icon.png';
 import removeIcon from '../assets/static/remove-Icon.png';
 
 const CarouselItem = (props) => {
-  console.log('props: ', props);
   const { id, cover, title, year, contentRating, duration, isList } = props;
   const handleSetFavorite = () => {
     props.setFavorite(

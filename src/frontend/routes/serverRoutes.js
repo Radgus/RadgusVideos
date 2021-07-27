@@ -5,7 +5,6 @@ import Player from '../containers/Player';
 import NotFound from '../containers/NotFound';
 
 const serverRoutes = (isLogged) => {
-  console.log('SERVERTOUTES: ', isLogged);
   return [
     {
       exact: true,

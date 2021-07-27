@@ -33,7 +33,6 @@ export const getVideoSource = (payload) => ({
 
 export const registerUser = (payload, redirectUrl) => {
   return (dispatch) => {
-    console.log('payload: ', payload);
     axios.post('/auth/sign-up', payload)
       .then(({ data }) => dispatch(registerRequest(data)))
       .then(() => {
@@ -44,7 +43,6 @@ export const registerUser = (payload, redirectUrl) => {
 };
 
 export const loginUser = ({ email, password }, redirectUrl) => {
-  console.log('email and password: ', email, password);
   return (dispatch) => {
     axios({
       url: '/auth/sign-in/',
@@ -55,14 +53,12 @@ export const loginUser = ({ email, password }, redirectUrl) => {
       },
     })
       .then(({ data }) => {
-        console.log('DATA EN LOGIN USER: ', data);
         document.cookie = `email=${data.user.email}`;
         document.cookie = `name=${data.user.name}`;
         document.cookie = `id=${data.user.id}`;
         dispatch(loginRequest(data.user));
       })
       .then(() => {
-        console.log('redirectUrl: ', redirectUrl);
         window.location.href = redirectUrl;
       })
       .catch((err) => dispatch(setError(err)));

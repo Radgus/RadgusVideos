@@ -31,7 +31,6 @@ app.use(passport.session());
 require('./utils/auth/strategies/basic');
 
 if (ENV === 'development') {
-  console.log('Development config');
   const webpackConfig = require('../../webpack.config');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -77,10 +76,8 @@ const setResponse = (html, preloadedState, manifest) => {
 };
 
 const renderApp = async (req, res) => {
-  console.log('Dentro de renderApp');
   let initialState;
   const { token, email, name, id } = req.cookies;
-  console.log('cookie: ', req.cookies);
 
   try {
     let movieList = await axios({
@@ -90,7 +87,6 @@ const renderApp = async (req, res) => {
     });
 
     movieList = movieList.data.data;
-    console.log('MOVIELIST: ', movieList);
 
     initialState = {
       user: {
@@ -101,7 +97,6 @@ const renderApp = async (req, res) => {
       originals: movieList.filter((movie) => movie.contentRating === 'G' && movie._id),
     };
   } catch (error) {
-    console.log('dentro del catch');
     console.log('Error: ', error);
     initialState = {
       user: {},
@@ -111,11 +106,10 @@ const renderApp = async (req, res) => {
     };
   }
 
-  console.log('initialState: ', initialState);
   const store = createStore(reducer, initialState);
   const preloadedState = store.getState();
   const isLogged = !!initialState.user.id;
-  console.log('isLogged: ', isLogged);
+
   const html = renderToString(
     <Provider store={store}>
       <StaticRouter location={req.url} context={{}}>
@@ -130,7 +124,6 @@ const renderApp = async (req, res) => {
 };
 
 app.post('/auth/sign-in', async (req, res, next) => {
-  // Obtenemos el atributo rememberMe desde el cuerpo del request
 
   // eslint-disable-next-line prefer-arrow-callback
   passport.authenticate('basic', function (error, data) {
@@ -144,12 +137,8 @@ app.post('/auth/sign-in', async (req, res, next) => {
           next(error);
         }
 
-        console.log('SIGN-IN DATA: ', data);
-
         const { token, ...user } = data;
 
-        // Si el atributo rememberMe es verdadero la expiración será en 30 dias
-        // de lo contrario la expiración será en 2 horas
         res.cookie('token', token, {
           httpOnly: !(ENV === 'development'),
           secure: !(ENV === 'development'),

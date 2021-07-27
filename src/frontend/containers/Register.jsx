@@ -14,7 +14,6 @@ const Register = (props) => {
   });
 
   const handleInput = (event) => {
-    console.log('event: ', event.target.value);
     setValues({
       ...form,
       [event.target.name]: event.target.value,
@@ -23,7 +22,6 @@ const Register = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('dentro deregister, handlesubmit', form);
     props.registerUser(form, '/login');
   };
 
